@@ -53,7 +53,7 @@ int binary_tree_balance(const binary_tree_t *tree)
 
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t nr, nl;
+	size_t nr, nl, GF, BL;
 
 	if (!tree)
 		return (0);
@@ -61,10 +61,15 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 	if (!tree->left && !tree->right)
 		return (1);
 
-	nr = binary_tree_balance(tree->right);
-	nl = binary_tree_balance(tree->left);
+	BL = binary_tree_balance(tree);
+	nr = binary_tree_is_perfect(tree->right);
+	nl = binary_tree_is_perfect(tree->left);
 
 	if (nl < nr)
-		return (nl);
-	return (nr);
+		GF = nl;
+	GF = nr;
+
+	if (BL < GF)
+		return (BL);
+	return (GF);
 }
